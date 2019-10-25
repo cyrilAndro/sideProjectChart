@@ -19,6 +19,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.ViewPortHandler
 import kotlinx.android.synthetic.main.activity_grouped_stacked.*
 import java.lang.Math.random
+import java.text.DecimalFormat
 
 class GroupedStackedActivity : AppCompatActivity() {
 
@@ -274,6 +275,7 @@ class GroupedStackedActivity : AppCompatActivity() {
 //            }
   //      }
 
+
         val data = CombinedData()
 
         data.setData(generateLineData())
@@ -399,6 +401,7 @@ class GroupedStackedActivity : AppCompatActivity() {
 
 
 
+
         val set2 = BarDataSet(entries2, "")
         set2.stackLabels = arrayOf("Stack 1", "Stack 2")
         set2.setColors(Color.rgb(61, 165, 255), Color.rgb(23, 197, 255))
@@ -495,7 +498,7 @@ class GroupedStackedActivity : AppCompatActivity() {
         return bd
     }
 
-    private class myValueTemperatureFormatter (value : Float): IValueFormatter {
+    private class myValueTemperatureFormatter (): IValueFormatter {
         override fun getFormattedValue(
             value: Float,
             entry: Entry?,
@@ -505,6 +508,19 @@ class GroupedStackedActivity : AppCompatActivity() {
 
             var valueToInt = value.toInt()
            return "$valueToInt + °C"
+        }
+    }
+
+    class MyTempValueFormatter:IValueFormatter {
+
+        private val mFormat: DecimalFormat
+        init{
+            mFormat = DecimalFormat("###,###,##0.0") // use one decimal
+        }
+
+        override fun getFormattedValue(value:Float, entry:Entry, dataSetIndex:Int, viewPortHandler:ViewPortHandler):String {
+            // write your logic here
+            return mFormat.format(value) + " $" // e.g. append a dollar-sign
         }
     }
 }
