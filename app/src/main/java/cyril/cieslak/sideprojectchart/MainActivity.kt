@@ -1,5 +1,6 @@
 package cyril.cieslak.sideprojectchart
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ViewPortHandler
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +43,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        button_change_activity.setOnClickListener {
+
+            val intent = Intent(this, GroupedStackedActivity::class.java)
+            startActivity(intent)
+
+        }
 
         mpLineChart = findViewById(R.id.line_chart)
         lineDataSet1 = LineDataSet(dataValues1(), "Data Set 1")
@@ -155,12 +164,29 @@ class MainActivity : AppCompatActivity() {
         mpBarChart.invalidate()
 
 
-        // GROUPED BAR CHART
+        //COMBINED BAR CHART
 
         mpCombinedChart = findViewById(R.id.combine_chart)
         mpCombinedChart.setDrawOrder(arrayOf<CombinedChart.DrawOrder>(CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE))
 
+        barDataSetForCombined = BarDataSet(dataValuesBar1(), "BarDataSet")
+        linedataSetForCombined = LineDataSet(dataValues1(), "LineDataSet")
 
+        barDataSetsForCombined =  ArrayList()
+        barDataSetsForCombined.add(barDataSetForCombined)
+
+        lineDataSetsForCombined = ArrayList()
+        lineDataSetsForCombined.add(linedataSetForCombined)
+
+        var laDataLine = lineDataSetsForCombined
+        var laDataBar = barDataSetsForCombined
+
+//        var laDataCombined = CombinedData()
+//        laDataCombined.getDataByIndex(1)
+//        laDataCombined.getDataByIndex(2)
+//
+//        mpCombinedChart.data = laDataCombined
+//        mpCombinedChart.invalidate()
     }
 
     private fun dataValues1(): ArrayList<Entry> {
